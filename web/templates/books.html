@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="px-3 py-2 border-bottom mb-3">
+    <div class="container-fluid d-flex flex-wrap justify-content-center">
+      <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" action="{{ url_for('book') }}" method="POST">
+        <input type="search" name="query" class="form-control" placeholder="Title or Author..." aria-label="Search">
+        <button type="submit" class="btn btn-secondary form">Search</button>
+      </form>
+
+      <div class="text-end">
+        <a href="{{ url_for('edit_book') }}">
+          <button type="button" class="btn btn-primary">Add Book</button>
+        </a>
+      </div>
+    </div>
+  </div>
+<div class="b-example-divider">
+    <h3>Books:</h3>
+  </div>
+  <div class="container-fluid">
+  <table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <!-- Your Columns HERE -->
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Rent Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Option</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Your rows inside the table HERE: -->
+        {% for item in items %}
+           <tr>
+                <td>{{item.id}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.author}}</td>
+                <td>${{item.rent}}</td>
+                <td>${{item.quantity}}</td>
+                <td>
+                  <a href="{{ url_for('checkout', book_id=item.id) }}">
+                    <button class="btn btn-outline btn-info">
+                      Rent This Book
+                    </button>
+                  </a>
+                  <a href="{{ url_for('edit_book', book_id=item.id) }}">
+                    <button class="btn btn-outline btn-success">
+                      Edit Book
+                    </button>
+                  </a>
+                  <a href="/delete/Book/{{ item.id }}">
+                    <button class="btn btn-outline btn-danger">
+                      Delete
+                    </button>
+                  </a>
+                </td>
+          </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  </div>
+{% endblock %}

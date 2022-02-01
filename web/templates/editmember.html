@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block body %}
+<link href="{{ url_for('static', filename='form-validation.css') }}" rel="stylesheet">
+<div class="container">
+    <main>
+      <div class="py-5 text-center">
+        <h2>Edit Member</h2>
+      </div>
+  
+      <div class="row g-5">
+        <div class="col-md-7 col-lg-8">
+          <h4 class="mb-3">Member Information</h4>
+            <form class="needs-validation" action = "{{ url_for('edit_member', member_id=member.id) }}" method = "POST" novalidate>
+                <div class="row g-3">
+                <div class="col-sm-12">
+                    <label for="firstName" class="form-label">Name</label>
+                    <input type="text" class="form-control" name="membername" id="firstName" placeholder="" value="{{ member.name }}" required>
+                    <div class="invalid-feedback">
+                    Valid member name is required.
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <label for="firstName" class="form-label">Contact</label>
+                    <span class="input-group-text">+91</span>
+                    <input type="text" class="form-control" name="contact" id="firstName" placeholder="" value="{{ member.contact }}" required>
+                    <div class="invalid-feedback">
+                    Valid number is required.
+                    </div>
+                </div>
+    
+                <div class="col-12">
+                    <label for="username" class="form-label">Debt</label>
+                    <div class="input-group has-validation">
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control" name="debt" value="{{ member.debt }}" id="username" placeholder="" required>
+                    <div class="invalid-feedback">
+                        Your debt is required.
+                    </div>
+                </div>
+
+                </div>
+                <hr class="my-4">
+    
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Save Member</button>
+            </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+        <script src="{{ url_for('static', filename='form-validation.js') }}"></script>
+{% endblock %}

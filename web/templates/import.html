@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block body %}
+<link href="{{ url_for('static', filename='form-validation.css') }}" rel="stylesheet">
+<div class="container">
+    <main>
+      <div class="py-5 text-center">
+        <h2>Import form</h2>
+      </div>
+  
+      <div class="row g-5">
+        <div class="col-md-7 col-lg-8">
+          <h4 class="mb-3">Books Information</h4>
+            <form class="needs-validation" action = "{{ url_for('import_api') }}" method = "post" novalidate>
+                <div class="row g-3">
+                <div class="col-sm-12">
+                    <label for="firstName" class="form-label">Title</label>
+                    <input type="text" class="form-control" name="query" id="firstName" placeholder="" value="" required>
+                    <div class="invalid-feedback">
+                    Valid first name is required.
+                    </div>
+                </div>
+    
+                <div class="col-12">
+                    <label for="username" class="form-label">Total Number of books to fetch</label>
+                    <div class="input-group has-validation">
+                    <span class="input-group-text">#</span>
+                    <input type="text" class="form-control" name="total" id="username" placeholder="Number of books" required>
+                    <div class="invalid-feedback">
+                        Your contact number is required.
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                  <label for="username" class="form-label">Quantity of each book</label>
+                  <div class="input-group has-validation">
+                  <span class="input-group-text">#</span>
+                  <input type="text" class="form-control" name="quantity" id="username" placeholder="Quantity of Books" required>
+                  <div class="invalid-feedback">
+                      Your contact number is required.
+                  </div>
+                  </div>
+              </div>
+
+              <div class="col-12">
+                <label for="username" class="form-label">Rent for each book</label>
+                <div class="input-group has-validation">
+                <span class="input-group-text">$</span>
+                <input type="text" class="form-control" name="rent" id="username" placeholder="Rent" required>
+                <div class="invalid-feedback">
+                    Your contact number is required.
+                </div>
+                </div>
+            </div>
+              
+
+                </div>
+    
+                <hr class="my-4">
+    
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Import Books</button>
+            </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+        <script src="{{ url_for('static', filename='form-validation.js') }}"></script>
+{% endblock %}

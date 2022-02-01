@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="b-example-divider">
+    <h3>Transactions:</h3>
+  </div>
+  <div class="container-fluid">
+    <table class="table table-hover table-dark">
+      <thead>
+          <tr>
+              <!-- Your Columns HERE -->
+              <th scope="col">ID</th>
+              <th scope="col">Book ID</th>
+              <th scope="col">Member ID</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Timestampt</th>
+              <th scope="col">Is Returned?</th>
+          </tr>
+      </thead>
+      <tbody>
+          <!-- Your rows inside the table HERE: -->
+          {% for transaction in transactions %}
+             <tr>
+                  <td>{{transaction.id}}</td>
+                  <td>{{transaction.bookid}}</td>
+                  <td>{{transaction.memberid}}</td>
+                  <td>{{transaction.amount}}</td>
+                  <td>{{transaction.timestamp}}</td>
+                  <td>
+                    {% if transaction.is_returned %}
+                    Returned
+                    {% else %}
+                    <form action="{{ url_for('transaction') }}" method="post">
+                      <input type="hidden" name="transactionId" value="{{ transaction.id }}">
+                      <button class="btn btn-outline btn-success" type="submit">
+                          Return
+                      </button>
+                    </form>
+                    {% endif %}
+                  </td>
+            </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    </div>
+{% endblock %}

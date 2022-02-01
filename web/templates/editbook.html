@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block body %}
+<link href="{{ url_for('static', filename='form-validation.css') }}" rel="stylesheet">
+<div class="container">
+    <main>
+      <div class="py-5 text-center">
+        <h2>Edit Book</h2>
+      </div>
+  
+      <div class="row g-5">
+        <div class="col-md-7 col-lg-8">
+          <h4 class="mb-3">Book Information</h4>
+            <form class="needs-validation" action = "{{ url_for('edit_book', book_id=book.id) }}" method = "post" novalidate>
+                <div class="row g-3">
+                <div class="col-sm-12">
+                    <label for="firstName" class="form-label">Name</label>
+                    <input type="text" class="form-control" name="bookname" id="firstName" placeholder="" value="{{ book.name }}" required>
+                    <div class="invalid-feedback">
+                    Valid book name is required.
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <label for="firstName" class="form-label">Author</label>
+                    <input type="text" class="form-control" name="author" id="firstName" placeholder="" value="{{ book.author }}" required>
+                    <div class="invalid-feedback">
+                    Valid author name is required.
+                    </div>
+                </div>
+    
+                <div class="col-12">
+                    <label for="username" class="form-label">Book Rent</label>
+                    <div class="input-group has-validation">
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control" name="rent" value="{{ book.rent }}" id="username" placeholder="Rent" required>
+                    <div class="invalid-feedback">
+                        Your rent is required.
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="username" class="form-label">Quantity</label>
+                    <div class="input-group has-validation">
+                    <span class="input-group-text">#</span>
+                    <input type="number" class="form-control" name="quantity" value="{{ book.quantity }}" id="username" placeholder="Quantity" required>
+                    <div class="invalid-feedback">
+                        Your quantity is required.
+                    </div>
+                </div>
+
+                </div>
+                <hr class="my-4">
+    
+                <button class="w-100 btn btn-primary btn-lg" type="submit">Save Book</button>
+            </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+        <script src="{{ url_for('static', filename='form-validation.js') }}"></script>
+{% endblock %}
