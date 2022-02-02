@@ -1,2 +1,4 @@
 venv
 web/library.db
+*/__pycache__
+flask_session

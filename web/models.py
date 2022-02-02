@@ -40,3 +40,13 @@ class Transaction(db.Model):
     amount = db.Column(db.Integer, nullable=False)
     timestamp = db.Column(db.TIMESTAMP, nullable=False)
     is_returned = db.Column(db.Boolean, default=False, nullable=False)
+
+class Admin(db.Model):
+    __tablename__ = 'admin'
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+    username = db.Column(db.String(length=30), nullable=False)
+    password = db.Column(db.String(length=30), nullable=False)
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password

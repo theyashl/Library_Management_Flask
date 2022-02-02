@@ -1,5 +1,5 @@
 from crypt import methods
-from flask import render_template, request, url_for, redirect
+from flask import render_template, request, url_for, redirect, session
 from web import app, models, db
 from datetime import datetime
 import requests as rqs
@@ -16,9 +16,7 @@ def home():
 def book():
     if request.method == 'POST':
         query = request.form['query']
-        # print("query", query)
         books = models.Book.query.filter(db.or_(models.Book.name.like('%'+query+'%'), models.Book.author.like('%'+query+'%'))).all()
-        # print(books)
     else:
         books = models.Book.query.all()
     return render_template('books.html', items=books)
@@ -47,6 +45,8 @@ def transaction():
 
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
+    if session.get("username") is None:
+        return redirect(url_for('login'))
     book_id = request.args.get('book_id')
     book = models.Book.query.get(book_id)
     if request.method == 'POST':
@@ -66,6 +66,8 @@ def checkout():
 
 @app.route('/edit/Book', methods=['GET', 'POST'])
 def edit_book():
+    if session.get("username") is None:
+        return redirect(url_for('login'))
     book_id = request.args.get('book_id')
     if request.method == 'POST':
         if not book_id:
@@ -85,6 +87,8 @@ def edit_book():
 
 @app.route('/edit/Member', methods=['GET', 'POST'])
 def edit_member():
+    if session.get("username") is None:
+        return redirect(url_for('login'))
     member_id = request.args.get('member_id')
     print(member_id)
     if request.method == 'POST':
@@ -104,6 +108,8 @@ def edit_member():
 
 @app.route('/delete/Book/<int:book_id>')
 def delete_book(book_id):
+    if session.get("username") is None:
+        return redirect(url_for('login'))
     book = models.Book.query.filter_by(id=book_id).first()
     db.session.delete(book)
     db.session.commit()
@@ -111,6 +117,8 @@ def delete_book(book_id):
 
 @app.route('/delete/Member/<int:member_id>')
 def delete_member(member_id):
+    if session.get("username") is None:
+        return redirect(url_for('login'))
     member = models.Member.query.filter_by(id=member_id).first()
     db.session.delete(member)
     db.session.commit()
@@ -131,7 +139,6 @@ def report():
         itms.append((book[0], models.Book.query.filter_by(id=book[0]).first(), book[1]))
     for member in members:
         prsn.append((member[0], models.Member.query.filter_by(id=member[0]).first(), member[1]))
-    print(itms[1])
     del books
     del members
     return render_template('report.html', items=itms, persons=prsn)
@@ -155,3 +162,22 @@ def import_api():
         return render_template('success.html')
     else:
         return render_template('import.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        admin = models.Admin.query.filter(db.and_(models.Admin.username==username, models.Admin.password ==password)).all()
+        if admin:
+            session["username"] = username
+            return redirect(url_for('home'))
+        else:
+            return render_template('login.html', error="Invalid Credentials!")
+    else:
+        return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session["username"] = None
+    return redirect(url_for('home'))
