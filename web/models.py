@@ -1,9 +1,11 @@
-from web import db
+from . import db
+from flask_login import UserMixin
 
 '''members = db.Table('members',
     db.Column('member_id', db.Integer, db.ForeignKey('member.id'), primary_key=True),
     db.Column('book_id', db.Integer, db.ForeignKey('book.id'), primary_key=True)
 )'''
+
 
 class Book(db.Model):
     __tablename__ = 'book'
@@ -20,6 +22,7 @@ class Book(db.Model):
         self.rent = rent
         self.quantity = quantity
 
+
 class Member(db.Model):
     __tablename__ = 'member'
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
@@ -32,6 +35,7 @@ class Member(db.Model):
         self.name = name
         self.contact = contact
 
+
 class Transaction(db.Model):
     __tablename__ = 'transaction'
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
@@ -41,7 +45,8 @@ class Transaction(db.Model):
     timestamp = db.Column(db.TIMESTAMP, nullable=False)
     is_returned = db.Column(db.Boolean, default=False, nullable=False)
 
-class Admin(db.Model):
+
+class Admin(UserMixin, db.Model):
     __tablename__ = 'admin'
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     username = db.Column(db.String(length=30), nullable=False)
